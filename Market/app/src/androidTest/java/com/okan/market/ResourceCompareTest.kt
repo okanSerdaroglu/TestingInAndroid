@@ -13,10 +13,11 @@ class ResourceCompareTest {
 	 * cases use the same variable resourceCompare
 	 */
 
-	private val resourceCompare = ResourceCompare()
+	private lateinit var resourceCompare: ResourceCompare
 
 	@Test
 	fun stringResourceSameAsGivenString_returnsTrue() {
+		resourceCompare = ResourceCompare()
 		val context = ApplicationProvider.getApplicationContext<Context>()
 		val result = resourceCompare.isEqual(context, R.string.app_name, "Market")
 		assertThat(result).isTrue()
@@ -24,6 +25,7 @@ class ResourceCompareTest {
 
 	@Test
 	fun stringResourceDifferentAsGivenString_returnsFalse() {
+		resourceCompare = ResourceCompare()
 		val context = ApplicationProvider.getApplicationContext<Context>()
 		val result = resourceCompare.isEqual(context, R.string.app_name, "hello")
 		assertThat(result).isFalse()
