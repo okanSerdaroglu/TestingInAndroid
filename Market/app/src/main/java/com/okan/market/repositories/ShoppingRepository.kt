@@ -1,4 +1,4 @@
-package com.okan.market.repositories
+   package com.okan.market.repositories
 
 import androidx.lifecycle.LiveData
 import com.okan.market.data.local.ShoppingItem
