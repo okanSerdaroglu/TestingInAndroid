@@ -1,4 +1,4 @@
-package com.okan.market.data.local
+ package com.okan.market.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
@@ -16,13 +16,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
-@SmallTest
+@RunWith(AndroidJUnit4::class) // this says that we are in Android test
+@SmallTest // unit tests
 class ShoppingDaoTest {
 
 	/**
 	 * This rule says Junit4 work the
-	 * methods one and another
+	 * methods one and another step by step
 	 * in the same thread
 	 */
 	@get:Rule
@@ -33,19 +33,29 @@ class ShoppingDaoTest {
 
 	@Before
 	fun setup() {
-		database = Room.inMemoryDatabaseBuilder(
+		database = Room.inMemoryDatabaseBuilder( // this means it is only available in ram. Not a real database
 			ApplicationProvider.getApplicationContext(),
 			ShoppingItemDB::class.java
 		).allowMainThreadQueries().build()
+		/**
+		 * we added allowMainThreadQueries() method, because
+		 * we want to access our db from main thread. If
+		 * another threads access our fake db ascyn, this can effect
+		 * our result. That's why we added this code.
+		 */
 
 		dao = database.shoppingDao()
 	}
 
-	@After
+	@After //close your dao after test
 	fun teardown() {
 		database.close()
 	}
 
+	/**
+	 *  runBlockingTest is just a way to work with a coroutine in main thread
+	 *  we don't want multithreading here
+	 */
 	@Test
 	fun insertShoppingItem() = runBlockingTest {
 		val shoppingItem = ShoppingItem(
@@ -67,6 +77,9 @@ class ShoppingDaoTest {
 		 */
 		val allShoppingItems = dao.observeAllShoppingItems().getOrAwaitValue()
 
+		/**
+		 * check if our shopping item contains in allShoppingItems
+		 */
 		assertThat(allShoppingItems).contains(shoppingItem)
 
 	}
