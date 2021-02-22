@@ -1,4 +1,4 @@
-package com.okan.market.remote.responses
+package com.okan.market.data.remote.responses
 
 import com.google.gson.annotations.SerializedName
 

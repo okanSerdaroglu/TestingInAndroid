@@ -1,7 +1,7 @@
-package com.okan.market.remote
+package com.okan.market.data.remote
 
 import com.okan.market.BuildConfig
-import com.okan.market.remote.responses.ImageResponse
+import com.okan.market.data.remote.responses.ImageResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

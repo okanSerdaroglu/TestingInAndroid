@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.okan.market.data.local.ShoppingItemDB
 import com.okan.market.other.Constants.BASE_URL
 import com.okan.market.other.Constants.DATABASE_NAME
-import com.okan.market.remote.ApiService
+import com.okan.market.data.remote.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

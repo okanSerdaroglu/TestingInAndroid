@@ -1,4 +1,4 @@
-package com.okan.market.remote.responses
+package com.okan.market.data.remote.responses
 
 data class ImageResponse(
 	val hints: List<ImageResult>,

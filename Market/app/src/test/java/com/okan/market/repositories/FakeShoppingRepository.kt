@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.okan.market.data.local.ShoppingItem
 import com.okan.market.other.Resource
-import com.okan.market.remote.responses.ImageResponse
+import com.okan.market.data.remote.responses.ImageResponse
 
 class FakeShoppingRepository : ShoppingRepository {
 
