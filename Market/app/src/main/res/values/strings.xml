@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Market</string>
+    <string name="search_for_images">Search for Images...</string>
+    <string name="name">NAME</string>
+    <string name="_3x">3x</string>
+    <string name="price_3">Price: 3€</string>
 </resources>
