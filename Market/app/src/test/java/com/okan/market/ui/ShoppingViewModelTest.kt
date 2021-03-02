@@ -2,18 +2,24 @@ package com.okan.market.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import com.okan.market.MainCoroutineRule
 import com.okan.market.getOrAwaitValueTest
 import com.okan.market.other.Constants
 import com.okan.market.other.Status
 import com.okan.market.repositories.FakeShoppingRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class ShoppingViewModelTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var viewModel: ShoppingViewModel
 
@@ -69,7 +75,7 @@ class ShoppingViewModelTest {
     fun `insert shopping item with too high amount, returns error`() {
         viewModel.insertShoppingItem(
                 name = "name",
-                amount = "555555555555555555555555555",
+                amount = "55555555555555",
                 riceString = "3.0"
         )
         val value = viewModel.insertShoppingItemStatus.getOrAwaitValueTest()
