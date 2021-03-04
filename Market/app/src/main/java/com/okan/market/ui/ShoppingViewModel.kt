@@ -14,9 +14,7 @@ import com.okan.market.repositories.ShoppingRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class ShoppingViewModel
-@ViewModelInject
-constructor(
+class ShoppingViewModel @ViewModelInject constructor(
         private val repository: ShoppingRepository
 ) : ViewModel() {
 
@@ -33,77 +31,53 @@ constructor(
     private val _insertShoppingItemStatus = MutableLiveData<Event<Resource<ShoppingItem>>>()
     val insertShoppingItemStatus: LiveData<Event<Resource<ShoppingItem>>> = _insertShoppingItemStatus
 
-    private fun setCurrentImageUrl(url: String) {
+    private fun setCurImageUrl(url: String) {
         _curImageUrl.postValue(url)
     }
 
     fun deleteShoppingItem(shoppingItem: ShoppingItem) = viewModelScope.launch {
-        repository.deleteShoppingItem(shoppingItem = shoppingItem)
+        repository.deleteShoppingItem(shoppingItem)
     }
 
-    fun insertShoppingItemIntoDB(shoppingItem: ShoppingItem) = viewModelScope.launch {
-        repository.insertShoppingItem(shoppingItem = shoppingItem)
+    private fun insertShoppingItemIntoDb(shoppingItem: ShoppingItem) = viewModelScope.launch {
+        repository.insertShoppingItem(shoppingItem)
     }
 
-    fun insertShoppingItem(
-            name: String,
-            amount: String,
-            riceString: String
-    ) {
-
-        if (name.isEmpty() || amount.isEmpty() || riceString.isEmpty()) {
+    fun insertShoppingItem(name: String, amountString: String, priceString: String) {
+        if(name.isEmpty() || amountString.isEmpty() || priceString.isEmpty()) {
             _insertShoppingItemStatus.postValue(Event(Resource.error("The fields must not be empty", null)))
             return
         }
-
-        if (name.length > Constants.MAX_NAME_LENGTH) {
-            _insertShoppingItemStatus.postValue(Event(Resource.error("The name of the item"
-                    + "must not exceed ${Constants.MAX_NAME_LENGTH} characters", null)))
+        if(name.length > Constants.MAX_NAME_LENGTH) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error("The name of the item" +
+                    "must not exceed ${Constants.MAX_NAME_LENGTH} characters", null)))
             return
         }
-
-        if (riceString.length > Constants.MAX_PRICE_LENGTH) {
-            _insertShoppingItemStatus.postValue(Event(Resource.error("The price of the item"
-                    + "must not exceed ${Constants.MAX_PRICE_LENGTH} characters", null)))
+        if(priceString.length > Constants.MAX_PRICE_LENGTH) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error("The price of the item" +
+                    "must not exceed ${Constants.MAX_PRICE_LENGTH} characters", null)))
             return
         }
-
         val amount = try {
-            amount.toInt()
-        } catch (e: Exception) {
-            _insertShoppingItemStatus.postValue(Event(Resource.error(
-                    msg = "Please enter a valid amount",
-                    data = null
-            )))
+            amountString.toInt()
+        } catch(e: Exception) {
+            _insertShoppingItemStatus.postValue(Event(Resource.error("Please enter a valid amount", null)))
+            return
         }
-
-        val shoppingItem = ShoppingItem(
-                name = name,
-                amount as Int,
-                price = riceString.toFloat(),
-                imageUrl = _curImageUrl.value ?: ""
-        )
-
-        insertShoppingItemIntoDB(shoppingItem)
-        setCurrentImageUrl("")
+        val shoppingItem = ShoppingItem(name, amount, priceString.toFloat(), _curImageUrl.value ?: "")
+        insertShoppingItemIntoDb(shoppingItem)
+        setCurImageUrl("")
         _insertShoppingItemStatus.postValue(Event(Resource.success(shoppingItem)))
-
     }
 
-    fun searchForImage(
-            imageQuery: String
-    ) {
-        if (imageQuery.isEmpty()) {
+    fun searchForImage(imageQuery: String) {
+        if(imageQuery.isEmpty()) {
             return
         }
-
         _images.value = Event(Resource.loading(null))
-
         viewModelScope.launch {
             val response = repository.searchForImage(imageQuery)
             _images.value = Event(response)
         }
-
     }
-
 }

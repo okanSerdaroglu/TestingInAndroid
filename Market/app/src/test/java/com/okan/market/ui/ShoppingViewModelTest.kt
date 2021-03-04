@@ -29,69 +29,75 @@ class ShoppingViewModelTest {
     }
 
     @Test
-    fun `insert shopping item empty field returns error`() {
+    fun `insert shopping item with empty field, returns error`() {
         viewModel.insertShoppingItem(
-                name = "name",
-                amount = "",
-                riceString = "3.0"
+            name = "name",
+            amountString = "",
+            priceString = "3.0"
         )
+
         val value = viewModel.insertShoppingItemStatus.getOrAwaitValueTest()
+
         assertThat(value.getContentIfNotHandled()?.status).isEqualTo(Status.ERROR)
     }
 
     @Test
     fun `insert shopping item with too long name, returns error`() {
         val string = buildString {
-            for (i in 1..Constants.MAX_NAME_LENGTH + 1) {
+            for(i in 1..Constants.MAX_NAME_LENGTH + 1) {
                 append(1)
             }
         }
         viewModel.insertShoppingItem(
-                name = string,
-                amount = "5",
-                riceString = "3.0"
+            name = string,
+            amountString = "5",
+            priceString = "3.0"
         )
+
         val value = viewModel.insertShoppingItemStatus.getOrAwaitValueTest()
+
         assertThat(value.getContentIfNotHandled()?.status).isEqualTo(Status.ERROR)
     }
 
     @Test
     fun `insert shopping item with too long price, returns error`() {
         val string = buildString {
-            for (i in 1..Constants.MAX_PRICE_LENGTH + 1) {
+            for(i in 1..Constants.MAX_PRICE_LENGTH + 1) {
                 append(1)
             }
         }
-        viewModel.insertShoppingItem(
-                name = "name",
-                amount = "5",
-                riceString = string
-        )
+        viewModel.insertShoppingItem("name", "5", string)
+
         val value = viewModel.insertShoppingItemStatus.getOrAwaitValueTest()
+
         assertThat(value.getContentIfNotHandled()?.status).isEqualTo(Status.ERROR)
     }
 
     @Test
     fun `insert shopping item with too high amount, returns error`() {
+
         viewModel.insertShoppingItem(
-                name = "name",
-                amount = "55555555555555",
-                riceString = "3.0"
+            name = "name",
+            amountString = "9999999999999999999",
+            priceString = "3.0"
         )
+
         val value = viewModel.insertShoppingItemStatus.getOrAwaitValueTest()
+
         assertThat(value.getContentIfNotHandled()?.status).isEqualTo(Status.ERROR)
     }
 
     @Test
     fun `insert shopping item with valid input, returns success`() {
+
         viewModel.insertShoppingItem(
-                name = "name",
-                amount = "5",
-                riceString = "3.0"
+            name = "name",
+            amountString = "5",
+            priceString = "3.0"
         )
+
         val value = viewModel.insertShoppingItemStatus.getOrAwaitValueTest()
+
         assertThat(value.getContentIfNotHandled()?.status).isEqualTo(Status.SUCCESS)
     }
-
-
 }
