@@ -4,6 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import com.okan.market.getOrAwaitValue
+import com.okan.market.launchFragmentInHiltContainer
+import com.okan.market.ui.ShoppingFragment
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,6 +49,15 @@ class ShoppingDaoTest {
     fun teardown() {
         database.close()
     }
+
+
+    @Test
+    fun testLaunchFragmentInHiltContainer() {
+        launchFragmentInHiltContainer<ShoppingFragment> {
+
+        }
+    }
+
 
     /**
      *  runBlockingTest is just a way to work with a coroutine in main thread
