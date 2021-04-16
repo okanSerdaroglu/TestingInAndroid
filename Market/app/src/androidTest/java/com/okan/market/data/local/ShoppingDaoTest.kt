@@ -50,15 +50,6 @@ class ShoppingDaoTest {
         database.close()
     }
 
-
-    @Test
-    fun testLaunchFragmentInHiltContainer() {
-        launchFragmentInHiltContainer<ShoppingFragment> {
-
-        }
-    }
-
-
     /**
      *  runBlockingTest is just a way to work with a coroutine in main thread
      *  we don't want multithreading here

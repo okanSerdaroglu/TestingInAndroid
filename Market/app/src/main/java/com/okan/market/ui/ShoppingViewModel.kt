@@ -31,7 +31,7 @@ class ShoppingViewModel @ViewModelInject constructor(
     private val _insertShoppingItemStatus = MutableLiveData<Event<Resource<ShoppingItem>>>()
     val insertShoppingItemStatus: LiveData<Event<Resource<ShoppingItem>>> = _insertShoppingItemStatus
 
-    private fun setCurImageUrl(url: String) {
+    fun setCurImageUrl(url: String) {
         _curImageUrl.postValue(url)
     }
 
