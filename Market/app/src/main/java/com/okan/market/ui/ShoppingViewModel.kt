@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class ShoppingViewModel @ViewModelInject constructor(
-        private val repository: ShoppingRepository
+    val repository: ShoppingRepository
 ) : ViewModel() {
 
     val shoppingItems = repository.observeAllShoppingItems()
